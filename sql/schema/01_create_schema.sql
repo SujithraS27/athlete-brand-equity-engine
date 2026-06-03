@@ -23,3 +23,32 @@ CREATE TABLE IF NOT EXISTS staging.dim_players (
     is_active       BOOLEAN DEFAULT TRUE,
     created_at      TIMESTAMP DEFAULT NOW()
 );
+
+-- ============================================================
+-- DIM: TEAMS
+-- ============================================================
+CREATE TABLE IF NOT EXISTS staging.dim_teams (
+    team_id             SERIAL PRIMARY KEY,
+    team_name           VARCHAR(100) NOT NULL,
+    team_short_name     VARCHAR(10),
+    home_city           VARCHAR(50),
+    franchise_owner     VARCHAR(100),
+    founded_year        INT,
+    created_at          TIMESTAMP DEFAULT NOW()
+);
+
+-- ============================================================
+-- DIM: DATES
+-- ============================================================
+CREATE TABLE IF NOT EXISTS staging.dim_dates (
+    date_id             DATE PRIMARY KEY,
+    day_of_week         VARCHAR(10),
+    week_number         INT,
+    month               INT,
+    month_name          VARCHAR(15),
+    quarter             INT,
+    year                INT,
+    ipl_season          INT,
+    is_weekend          BOOLEAN,
+    created_at          TIMESTAMP DEFAULT NOW()
+);
