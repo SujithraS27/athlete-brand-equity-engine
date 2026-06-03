@@ -52,3 +52,33 @@ CREATE TABLE IF NOT EXISTS staging.dim_dates (
     is_weekend          BOOLEAN,
     created_at          TIMESTAMP DEFAULT NOW()
 );
+-- ============================================================
+-- DIM: EVENTS
+-- Viral moments, controversies, awards, injuries
+-- ============================================================
+CREATE TABLE IF NOT EXISTS staging.dim_events (
+    event_id                SERIAL PRIMARY KEY,
+    player_id               INT REFERENCES staging.dim_players(player_id),
+    event_date              DATE NOT NULL,
+    event_type              VARCHAR(50),   -- 'record_broken', 'controversy', 'award', 'injury', 'viral_moment'
+    event_name              VARCHAR(200),
+    event_description       TEXT,
+    sentiment               VARCHAR(10) CHECK (sentiment IN ('positive','negative','neutral')),
+    media_coverage_score    INT CHECK (media_coverage_score BETWEEN 1 AND 10),
+    created_at              TIMESTAMP DEFAULT NOW()
+);
+
+-- ============================================================
+-- DIM: BRAND CAMPAIGNS
+-- Brand deals linked to players
+-- ============================================================
+CREATE TABLE IF NOT EXISTS staging.dim_brand_campaigns (
+    campaign_id             SERIAL PRIMARY KEY,
+    player_id               INT REFERENCES staging.dim_players(player_id),
+    brand_name              VARCHAR(100),
+    campaign_start_date     DATE,
+    campaign_end_date       DATE,
+    deal_value_tier         VARCHAR(20) CHECK (deal_value_tier IN ('low','medium','high','mega')),
+    category                VARCHAR(50),   -- 'sportswear', 'beverage', 'fintech', etc.
+    created_at              TIMESTAMP DEFAULT NOW()
+);
