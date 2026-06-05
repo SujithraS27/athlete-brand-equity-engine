@@ -82,3 +82,52 @@ CREATE TABLE IF NOT EXISTS staging.dim_brand_campaigns (
     category                VARCHAR(50),   -- 'sportswear', 'beverage', 'fintech', etc.
     created_at              TIMESTAMP DEFAULT NOW()
 );
+CREATE TABLE fact_player_match_stats (
+    match_id INT NOT NULL,
+    player_id INT NOT NULL,
+    team_id INT NOT NULL,
+    opponent_team_id INT NOT NULL,
+
+    match_date DATE NOT NULL,
+    ipl_season VARCHAR(10),
+    venue VARCHAR(100),
+
+    -- Batting Stats
+    runs_scored INT DEFAULT 0,
+    balls_faced INT DEFAULT 0,
+    fours INT DEFAULT 0,
+    sixes INT DEFAULT 0,
+    strike_rate NUMERIC(6,2),
+    batting_position INT,
+    is_out BOOLEAN,
+    dismissal_type VARCHAR(50),
+
+    -- Bowling Stats
+    overs_bowled NUMERIC(4,1) DEFAULT 0,
+    wickets_taken INT DEFAULT 0,
+    runs_conceded INT DEFAULT 0,
+    economy_rate NUMERIC(6,2),
+    dot_balls INT DEFAULT 0,
+
+    -- Fielding Stats
+    catches INT DEFAULT 0,
+    run_outs INT DEFAULT 0,
+
+    -- Match Result
+    match_result VARCHAR(20),
+    player_of_match BOOLEAN DEFAULT FALSE,
+
+    PRIMARY KEY (match_id, player_id),
+
+    FOREIGN KEY (match_id)
+        REFERENCES dim_match(match_id),
+
+    FOREIGN KEY (player_id)
+        REFERENCES dim_player(player_id),
+
+    FOREIGN KEY (team_id)
+        REFERENCES dim_team(team_id),
+
+    FOREIGN KEY (opponent_team_id)
+        REFERENCES dim_team(team_id)
+);
