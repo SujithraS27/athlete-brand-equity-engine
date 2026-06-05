@@ -131,3 +131,40 @@ CREATE TABLE fact_player_match_stats (
     FOREIGN KEY (opponent_team_id)
         REFERENCES dim_team(team_id)
 );
+CREATE TABLE fact_social_daily_metrics (
+    social_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+
+    player_id INT NOT NULL,
+    metric_date DATE NOT NULL,
+    platform VARCHAR(30) NOT NULL,
+
+    -- Growth Metrics
+    followers BIGINT DEFAULT 0,
+    follower_delta INT DEFAULT 0,
+    follower_growth_pct NUMERIC(8,2),
+
+    -- Engagement Metrics
+    posts_count INT DEFAULT 0,
+    total_likes BIGINT DEFAULT 0,
+    total_comments BIGINT DEFAULT 0,
+    total_shares BIGINT DEFAULT 0,
+    engagement_rate NUMERIC(8,2),
+
+    -- Sentiment Metrics
+    sentiment_score NUMERIC(3,2),
+    trending_score NUMERIC(5,2),
+
+    -- Constraints
+    CONSTRAINT fk_social_player
+        FOREIGN KEY (player_id)
+        REFERENCES dim_player(player_id),
+
+    CONSTRAINT uq_player_date_platform
+        UNIQUE (player_id, metric_date, platform),
+
+    CONSTRAINT chk_sentiment_score
+        CHECK (sentiment_score BETWEEN -1.00 AND 1.00),
+
+    CONSTRAINT chk_trending_score
+        CHECK (trending_score BETWEEN 0 AND 100)
+);
