@@ -168,3 +168,43 @@ CREATE TABLE fact_social_daily_metrics (
     CONSTRAINT chk_trending_score
         CHECK (trending_score BETWEEN 0 AND 100)
 );
+-- fact_player_match_stats indexes
+
+CREATE INDEX idx_match_player
+ON staging.fact_player_match_stats(player_id);
+
+CREATE INDEX idx_match_team
+ON staging.fact_player_match_stats(team_id);
+
+CREATE INDEX idx_match_opponent_team
+ON staging.fact_player_match_stats(opponent_team_id);
+
+CREATE INDEX idx_match_date
+ON staging.fact_player_match_stats(match_date);
+
+CREATE INDEX idx_match_player_date
+ON staging.fact_player_match_stats(player_id, match_date);
+
+CREATE INDEX idx_match_team_date
+ON staging.fact_player_match_stats(team_id, match_date);
+
+CREATE INDEX idx_match_season
+ON staging.fact_player_match_stats(ipl_season);
+
+
+-- fact_social_daily_metrics indexes
+
+CREATE INDEX idx_social_player
+ON staging.fact_social_daily_metrics(player_id);
+
+CREATE INDEX idx_social_date
+ON staging.fact_social_daily_metrics(metric_date);
+
+CREATE INDEX idx_social_player_date
+ON staging.fact_social_daily_metrics(player_id, metric_date);
+
+CREATE INDEX idx_social_platform
+ON staging.fact_social_daily_metrics(platform);
+
+CREATE INDEX idx_social_platform_date
+ON staging.fact_social_daily_metrics(platform, metric_date);
