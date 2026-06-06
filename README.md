@@ -58,6 +58,28 @@ athlete-brand-equity-engine/
 ## 🗄️ Schema Design
 
 The project follows a star-schema architecture consisting of dimension tables and fact tables.
+## Why Star Schema?
+
+A flat table containing player information, team information, match statistics, social metrics, and campaign details would result in:
+
+- Data duplication
+- Increased storage requirements
+- Slower analytical queries
+- Difficult maintenance
+- Poor scalability
+
+The star schema separates descriptive attributes into dimension tables and measurable business events into fact tables.
+
+### Benefits
+
+- Reduced data redundancy
+- Better query performance
+- Easier maintenance
+- Clear analytical structure
+- Industry-standard data warehouse design
+- Compatible with BI tools such as Metabase, Power BI, and Tableau
+
+---
 
 ### Dimension Tables
 
